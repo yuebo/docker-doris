@@ -1,18 +1,18 @@
 # doris
 ```
-wget https://palo-cloud-repo-bd.bd.bcebos.com/baidu-doris-release/PALO-0.14.13.1-release-binary.tar.gz
+wget https://mirrors.tuna.tsinghua.edu.cn/apache/doris/1.0/1.0.0-incubating/apache-doris-1.0.0-incubating-bin.tar.gz
 ```
 ## 编译FE
 ```
 cd fe
-docker build . -t nexus3.tineco.com/doris_fe:0.14.13.1
-docker push nexus3.tineco.com/doris_fe:0.14.13.1
+docker build . -t mooncakexyb/doris_fe:1.0.0
+docker push mooncakexyb/doris_fe:1.0.0
 ```
 ## 编译BE
 ```
 cd be
-docker build . -t nexus3.tineco.com/doris_be:0.14.13.1
-docker push nexus3.tineco.com/doris_be:0.14.13.1
+docker build . -t mooncakexyb/doris_be:1.0.0
+docker push mooncakexyb/doris_be:1.0.0
 ```
 ## 运行Doris集群
 ```
@@ -32,7 +32,7 @@ show proc '/backends';
 
 ## 运行Doris单点
 ```
-docker-compose -f docker-compose-standalone.yml up -d
+docker-compose up -d
 ```
 ### 使用Mysql客户端连接FE
 ```
