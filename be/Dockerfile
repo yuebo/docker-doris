@@ -1,0 +1,20 @@
+FROM mooncakexyb/doris_base:1.0.0
+
+RUN yum install -y unixODBC
+ADD mysql-connector-odbc-8.0.29-1.el7.x86_64.rpm /opt/doris/be
+ADD oracle-instantclient19.13-basic-19.13.0.0.0-2.x86_64.rpm /opt/doris/be
+ADD oracle-instantclient19.13-odbc-19.13.0.0.0-2.x86_64.rpm /opt/doris/be
+RUN yum install -y  /opt/doris/be/mysql-connector-odbc-8.0.29-1.el7.x86_64.rpm
+RUN yum install -y  /opt/doris/be/oracle-instantclient19.13-basic-19.13.0.0.0-2.x86_64.rpm
+RUN yum install -y  /opt/doris/be/oracle-instantclient19.13-odbc-19.13.0.0.0-2.x86_64.rpm
+
+
+COPY odbcinst.ini /opt/doris/be/conf/odbcinst.ini
+COPY odbcinst.ini /etc/odbcinst.ini
+ENV TZ=Asia/Shanghai
+ENV PRIORITY_NETWORKS=10.108.0.0/16
+VOLUME /opt/doris/be/storage
+EXPOSE 9050 9060 9070 8040 8060
+COPY entrypoint.sh /opt/doris/be/bin/entrypoint.sh
+WORKDIR /opt/doris/be
+ENTRYPOINT /opt/doris/be/bin/entrypoint.sh

@@ -1,0 +1,47 @@
+version: "3"
+ 
+services:
+  fe01:
+    container_name: fe01
+    hostname: fe01
+    image: mooncakexyb/doris_fe:1.0.0
+    environment:
+    - PRIORITY_NETWORKS=172.18.0.0/16
+    networks:
+      doris:
+        ipv4_address: 172.18.0.10
+    ports:
+      - 8030:8030
+      - 9030:9030
+    restart: always
+    volumes:
+      - ./doris/fe01/data:/opt/doris/fe/doris-meta
+      - ./doris/fe01/logs:/opt/doris/fe/logs
+  be01:
+    container_name: be01
+    hostname: be01
+    image: mooncakexyb/doris_be:1.0.0
+    environment:
+    - PRIORITY_NETWORKS=172.18.0.0/16
+    networks:
+      doris:
+        ipv4_address: 172.18.0.20
+    #ports:
+    #  - 9050:9050
+    #  - 9060:9060
+    #  - 9070:9070
+    #  - 8040:8040
+    #  - 8060:8060
+    restart: always
+    depends_on: 
+      - fe01
+    volumes:
+      - ./doris/be01/data:/opt/doris/be/storage
+      - ./doris/be01/logs:/opt/doris/be/logs
+networks:
+  doris:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.18.0.0/24"
